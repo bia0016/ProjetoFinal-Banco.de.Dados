@@ -1,0 +1,17 @@
+# Compilados do Java (Bytecodes)
+*.class
+
+# Pastas de build automáticas
+target/
+bin/
+build/
+out/
+
+# Configurações do VS Code
+.vscode/
+*.code-workspace
+
+# Arquivos de log e temporários
+*.log
+.DS_Store
+Thumbs.db
