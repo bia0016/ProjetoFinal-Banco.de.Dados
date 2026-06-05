@@ -1,15 +1,15 @@
 package com.petshop.model;
 
 public class Endereco {
-    private Integer id;
+    private Integer idEndereco;
     private String cep;
     private String logradouro;
     private String bairro;
     private String cidade;
     private String complemento;
 
-    public Endereco(Integer id, String cep, String logradouro, String bairro, String cidade, String complemento) {
-        this.id = id;
+    public Endereco(Integer idEndereco, String cep, String logradouro, String bairro, String cidade, String complemento) {
+        this.idEndereco = idEndereco;
         this.cep = cep;
         this.logradouro = logradouro;
         this.bairro = bairro;
@@ -18,11 +18,11 @@ public class Endereco {
     }
 
     public Integer getId() {
-        return this.id;
+        return this.idEndereco;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
     public String getCep() {

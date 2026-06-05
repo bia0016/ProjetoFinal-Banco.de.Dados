@@ -22,15 +22,14 @@ public class TelefoneDAO {
 
     public void insert(Telefone telefone){
 
-        String sql = "INSERT INTO telefone(idTel, ddd, numero, descricao) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TELEFONE (DDD, NUMERO, DESCRICAO) VALUES (?, ?, ?)";
     
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, telefone.getIdTel());
-            ps.setString(2, telefone.getDdd());
-            ps.setString(3, telefone.getNumero());
-            ps.setString(4, telefone.getDescricao());
+            ps.setString(1, telefone.getDdd());
+            ps.setString(2, telefone.getNumero());
+            ps.setString(3, telefone.getDescricao());
             ps.executeUpdate();
 
             System.out.println("Telefone cadastrado com sucesso!");
@@ -41,11 +40,11 @@ public class TelefoneDAO {
         }
     }
 
-    //Read - Devolve todos os Endereços
+    //Read - Devolve todos os Telefones
 
     public List<Telefone> listarTelefone(){
 
-        String sql = "SELECT idTel, ddd, numero, descricao FROM telefone";
+        String sql = "SELECT ID_TELEFONE, DDD, NUMERO, DESCRICAO FROM TELEFONE";
 
         try{
 
@@ -55,10 +54,10 @@ public class TelefoneDAO {
             List<Telefone> telefones = new ArrayList<>();
             while(rs.next()){
                 Telefone k = new Telefone(
-                    rs.getInt("idTel"),
-                    rs.getString("ddd"),
-                    rs.getString("numero"),
-                    rs.getString("descricao")
+                    rs.getInt("ID_TELEFONE"),
+                    rs.getString("DDD"),
+                    rs.getString("NUMERO"),
+                    rs.getString("DESCRICAO")
                 );
                 telefones.add(k);
             }
@@ -70,11 +69,11 @@ public class TelefoneDAO {
         }
     }
 
-    //Read - Busca Pet pelo ID
+    //Read - Busca Telefone pelo ID
 
     public Telefone buscarPorID(int idTel){
 
-        String sql = "SELECT * FROM telefone WHERE idTel = ?";
+        String sql = "SELECT ID_TELEFONE, DDD, NUMERO, DESCRICAO FROM TELEFONE WHERE ID_TELEFONE = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -84,11 +83,10 @@ public class TelefoneDAO {
             if(rs.next()){
 
                 return new Telefone(
-
-                    rs.getInt("idTel"),
-                    rs.getString("ddd"),
-                    rs.getString("numero"),
-                    rs.getString("descricao")
+                    rs.getInt("ID_TELEFONE"),
+                    rs.getString("DDD"),
+                    rs.getString("NUMERO"),
+                    rs.getString("DESCRICAO")
                 );
             }
         }
@@ -98,11 +96,11 @@ public class TelefoneDAO {
         return null;
     }
 
-    //Update - Atualizar dados dos Pets:
+    //Update - Atualizar dados do Telefone
 
     public void atualiza(Telefone telefone){
 
-        String sql = "UPDATE telefone SET ddd = ?, numero = ?, descricao = ? WHERE idTel = ?";
+        String sql = "UPDATE TELEFONE SET DDD = ?, NUMERO = ?, DESCRICAO = ? WHERE ID_TELEFONE = ?";
 
         try{
 
@@ -119,11 +117,11 @@ public class TelefoneDAO {
         }
     }
 
-    //Delete - Deleta dados do Pet:
+    //Delete - Deleta dados do Telefone
 
     public void apaga(int idTel){
 
-        String sql = "DELETE FROM telefone WHERE idTel = ?";
+        String sql = "DELETE FROM TELEFONE WHERE ID_TELEFONE = ?";
 
         try{
 

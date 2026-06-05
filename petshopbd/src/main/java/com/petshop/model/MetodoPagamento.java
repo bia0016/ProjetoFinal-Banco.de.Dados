@@ -2,11 +2,11 @@ package com.petshop.model;
 
 public class MetodoPagamento {
     private Integer idPag;
-    private String descricao;
+    private String tipo;
 
-    public MetodoPagamento(Integer idPag, String descricao) {
+    public MetodoPagamento(Integer idPag, String tipo) {
         this.idPag = idPag;
-        this.descricao = descricao;
+        this.tipo = tipo;
     }
 
     public Integer getIdPag() {
@@ -18,11 +18,11 @@ public class MetodoPagamento {
     }
 
     public String getDescricao() {
-        return this.descricao;
+        return this.tipo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescricao(String tipo) {
+        this.tipo = tipo;
     }
 
 }

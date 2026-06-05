@@ -22,15 +22,15 @@ public class PetDAO {
 
     public void insert(Pet pet){
 
-        String sql = "INSERT INTO pet(nome, especie, raca, porte) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PET (NOME, ESPECIE, RACA, PORTE) VALUES (?, ?, ?, ?)";
     
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(2, pet.getNome());
-            ps.setString(3, pet.getEspecie());
-            ps.setString(4, pet.getRaca());
-            ps.setString(5, pet.getPorte());
+            ps.setString(1, pet.getNome());
+            ps.setString(2, pet.getEspecie());
+            ps.setString(3, pet.getRaca());
+            ps.setString(4, pet.getPorte());
             ps.executeUpdate();
 
             System.out.println("Pet cadastrado com sucesso!");
@@ -45,7 +45,7 @@ public class PetDAO {
 
     public List<Pet> listarPets(){
 
-        String sql = "SELECT idPet, nome, especie, raca, porte FROM pet";
+        String sql = "SELECT ID_PET, NOME, ESPECIE, RACA, PORTE FROM PET";
 
         try{
 
@@ -55,11 +55,12 @@ public class PetDAO {
             List<Pet> pets = new ArrayList<>();
             while(rs.next()){
                 Pet k = new Pet(
-                    rs.getInt("idPet"),
-                    rs.getString("nome"),
-                    rs.getString("especie"),
-                    rs.getString("raca"),
-                    rs.getString("porte")
+                    rs.getInt("ID_PET"),
+                    rs.getString("NOME"),
+                    rs.getString("ESPECIE"),
+                    rs.getString("RACA"),
+                    rs.getString("PORTE"),
+                    null
                 );
                 pets.add(k);
             }
@@ -75,7 +76,7 @@ public class PetDAO {
 
     public Pet buscarPorID(int idPet){
 
-        String sql = "SELECT * FROM pet WHERE idPet = ?";
+        String sql = "SELECT ID_PET, NOME, ESPECIE, RACA, PORTE FROM PET WHERE ID_PET = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -85,12 +86,12 @@ public class PetDAO {
             if(rs.next()){
 
                 return new Pet(
-
-                    rs.getInt("idPet"),
-                    rs.getString("nome"),
-                    rs.getString("especie"),
-                    rs.getString("raca"),
-                    rs.getString("porte")
+                    rs.getInt("ID_PET"),
+                    rs.getString("NOME"),
+                    rs.getString("ESPECIE"),
+                    rs.getString("RACA"),
+                    rs.getString("PORTE"),
+                    null
                 );
             }
         }
@@ -100,11 +101,11 @@ public class PetDAO {
         return null;
     }
 
-    //Update - Atualizar dados dos Pets:
+    //Update - Atualizar dados dos Pets
 
     public void atualiza(Pet pet){
 
-        String sql = "UPDATE pet SET nome = ?, especie = ?, raca = ?, porte = ? WHERE idPet = ?";
+        String sql = "UPDATE PET SET NOME = ?, ESPECIE = ?, RACA = ?, PORTE = ? WHERE ID_PET = ?";
 
         try{
 
@@ -122,11 +123,11 @@ public class PetDAO {
         }
     }
 
-    //Delete - Deleta dados do Pet:
+    //Delete - Deleta dados do Pet
 
     public void apaga(int idPet){
 
-        String sql = "DELETE FROM pet WHERE idPet = ?";
+        String sql = "DELETE FROM PET WHERE ID_PET = ?";
 
         try{
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.petshop.connection.ConnectionFactory;
 import com.petshop.model.Comanda;
+import com.petshop.model.MetodoPagamento;
 
 public class ComandaDAO {
     
@@ -22,13 +23,14 @@ public class ComandaDAO {
 
     public void insert(Comanda comanda){
 
-        String sql = "INSERT INTO comanda(idComanda, precoTotal) VALUES (?, ?)";
+        String sql = "INSERT INTO COMANDA (PRECO_TOTAL, ID_METODO, ID_REGISTRO) VALUES (?, ?, ?)";
     
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, comanda.getIdComanda());
-            ps.setFloat(2, comanda.getPrecoTotal());
+            ps.setFloat(1, comanda.getPrecoTotal());
+            ps.setInt(2, comanda.getMetodoPagamento().getIdPag());
+            ps.setInt(3, comanda.getIdRegistro());
             ps.executeUpdate();
 
             System.out.println("Comanda salva com sucesso!");
@@ -39,11 +41,11 @@ public class ComandaDAO {
         }
     }
 
-    //Read - Devolve todos os Endereços
+    //Read - Devolve todas as Comandas
 
     public List<Comanda> listarComanda(){
 
-        String sql = "SELECT idComanda, precoTotal FROM comanda";
+        String sql = "SELECT ID_COMANDA, PRECO_TOTAL, ID_METODO, ID_REGISTRO FROM COMANDA";
 
         try{
 
@@ -53,8 +55,10 @@ public class ComandaDAO {
             List<Comanda> comandas = new ArrayList<>();
             while(rs.next()){
                 Comanda k = new Comanda(
-                    rs.getInt("idComanda"),
-                    rs.getFloat("precoTotal")
+                    rs.getInt("ID_COMANDA"),
+                    rs.getFloat("PRECO_TOTAL"),
+                    new MetodoPagamento(rs.getInt("ID_METODO"), null),
+                    rs.getInt("ID_REGISTRO")
                 );
                 comandas.add(k);
             }
@@ -66,11 +70,11 @@ public class ComandaDAO {
         }
     }
 
-    //Read - Busca Pet pelo ID
+    //Read - Busca Comanda pelo ID
 
     public Comanda buscarPorID(int idComanda){
 
-        String sql = "SELECT * FROM comanda WHERE idComanda = ?";
+        String sql = "SELECT ID_COMANDA, PRECO_TOTAL, ID_METODO, ID_REGISTRO FROM COMANDA WHERE ID_COMANDA = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -80,9 +84,10 @@ public class ComandaDAO {
             if(rs.next()){
 
                 return new Comanda(
-
-                    rs.getInt("idComanda"),
-                    rs.getFloat("precoTotal")
+                    rs.getInt("ID_COMANDA"),
+                    rs.getFloat("PRECO_TOTAL"),
+                    new MetodoPagamento(rs.getInt("ID_METODO"), null),
+                    rs.getInt("ID_REGISTRO")
                 );
             }
         }
@@ -92,17 +97,18 @@ public class ComandaDAO {
         return null;
     }
 
-    //Update - Atualizar dados dos Pets:
+    //Update - Atualizar dados da Comanda
 
     public void atualiza(Comanda comanda){
 
-        String sql = "UPDATE comanda SET precoTotal = ? WHERE idComanda = ?";
+        String sql = "UPDATE COMANDA SET PRECO_TOTAL = ?, ID_METODO = ? WHERE ID_COMANDA = ?";
 
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setFloat(1, comanda.getPrecoTotal());
-            ps.setInt(2, comanda.getIdComanda());
+            ps.setInt(2, comanda.getMetodoPagamento().getIdPag());
+            ps.setInt(3, comanda.getIdComanda());
             ps.executeUpdate();
             System.out.println("Dados da comanda atualizados com sucesso!");
         }
@@ -111,11 +117,11 @@ public class ComandaDAO {
         }
     }
 
-    //Delete - Deleta dados do Pet:
+    //Delete - Deleta dados da Comanda
 
     public void apaga(int idComanda){
 
-        String sql = "DELETE FROM comanda WHERE idComanda = ?";
+        String sql = "DELETE FROM COMANDA WHERE ID_COMANDA = ?";
 
         try{
 
@@ -129,5 +135,4 @@ public class ComandaDAO {
             throw new RuntimeException("Erro ao tentar apagar dados da comanda: " + e.getMessage());
         }
     }
-    
 }

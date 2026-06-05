@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.petshop.connection.ConnectionFactory;
 import com.petshop.model.Endereco;
-import com.petshop.model.Pet;
 
 public class EnderecoDAO {
     
@@ -23,17 +22,16 @@ public class EnderecoDAO {
 
     public void insert(Endereco endereco){
 
-        String sql = "INSERT INTO endereco(id, cep, logradouro, bairro, cidade, complemento) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ENDERECO (CEP, LOGRADOURO, BAIRRO, CIDADE, COMPLEMENTO) VALUES (?, ?, ?, ?, ?)";
     
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, endereco.getId());
-            ps.setString(2, endereco.getCep());
-            ps.setString(3, endereco.getLogradouro());
-            ps.setString(4, endereco.getBairro());
-            ps.setString(5, endereco.getCidade());
-            ps.setString(6, endereco.getComplemento());
+            ps.setString(1, endereco.getCep());
+            ps.setString(2, endereco.getLogradouro());
+            ps.setString(3, endereco.getBairro());
+            ps.setString(4, endereco.getCidade());
+            ps.setString(5, endereco.getComplemento());
             ps.executeUpdate();
 
             System.out.println("Endereço cadastrado com sucesso!");
@@ -48,7 +46,7 @@ public class EnderecoDAO {
 
     public List<Endereco> listarEnderecos(){
 
-        String sql = "SELECT id, cep, logradouro, bairro, cidade, complemento FROM endereco";
+        String sql = "SELECT ID_ENDERECO, CEP, LOGRADOURO, BAIRRO, CIDADE, COMPLEMENTO FROM ENDERECO";
 
         try{
 
@@ -58,12 +56,12 @@ public class EnderecoDAO {
             List<Endereco> enderecos = new ArrayList<>();
             while(rs.next()){
                 Endereco k = new Endereco(
-                    rs.getInt("id"),
-                    rs.getString("cep"),
-                    rs.getString("logradouro"),
-                    rs.getString("bairro"),
-                    rs.getString("cidade"),
-                    rs.getString("complemento")
+                    rs.getInt("ID_ENDERECO"),
+                    rs.getString("CEP"),
+                    rs.getString("LOGRADOURO"),
+                    rs.getString("BAIRRO"),
+                    rs.getString("CIDADE"),
+                    rs.getString("COMPLEMENTO")
                 );
                 enderecos.add(k);
             }
@@ -75,11 +73,11 @@ public class EnderecoDAO {
         }
     }
 
-    //Read - Busca Pet pelo ID
+    //Read - Busca Endereço pelo ID
 
     public Endereco buscarPorID(int id){
 
-        String sql = "SELECT * FROM endereco WHERE id = ?";
+        String sql = "SELECT ID_ENDERECO, CEP, LOGRADOURO, BAIRRO, CIDADE, COMPLEMENTO FROM ENDERECO WHERE ID_ENDERECO = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -89,13 +87,12 @@ public class EnderecoDAO {
             if(rs.next()){
 
                 return new Endereco(
-
-                    rs.getInt("id"),
-                    rs.getString("cep"),
-                    rs.getString("logradouro"),
-                    rs.getString("bairro"),
-                    rs.getString("cidade"),
-                    rs.getString("complemento")
+                    rs.getInt("ID_ENDERECO"),
+                    rs.getString("CEP"),
+                    rs.getString("LOGRADOURO"),
+                    rs.getString("BAIRRO"),
+                    rs.getString("CIDADE"),
+                    rs.getString("COMPLEMENTO")
                 );
             }
         }
@@ -105,11 +102,11 @@ public class EnderecoDAO {
         return null;
     }
 
-    //Update - Atualizar dados dos Pets:
+    //Update - Atualizar dados do Endereço
 
     public void atualiza(Endereco endereco){
 
-        String sql = "UPDATE endereco SET cep = ?, logradouro = ?, bairro = ?, cidade = ?, complemento = ? WHERE id = ?";
+        String sql = "UPDATE ENDERECO SET CEP = ?, LOGRADOURO = ?, BAIRRO = ?, CIDADE = ?, COMPLEMENTO = ? WHERE ID_ENDERECO = ?";
 
         try{
 
@@ -128,11 +125,11 @@ public class EnderecoDAO {
         }
     }
 
-    //Delete - Deleta dados do Pet:
+    //Delete - Deleta dados do Endereço
 
     public void apaga(int id){
 
-        String sql = "DELETE FROM endereco WHERE id = ?";
+        String sql = "DELETE FROM ENDERECO WHERE ID_ENDERECO = ?";
 
         try{
 

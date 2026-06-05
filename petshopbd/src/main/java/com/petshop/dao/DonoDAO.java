@@ -28,7 +28,7 @@ public class DonoDAO {
 
     public void insert(Dono dono){
         
-        String sql = "INSERT INTO dono(cpf, nome, email, id_endereco) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO DONO (CPF, NOME, EMAIL, ID_ENDERECO) VALUES (?, ?, ?, ?)";
 
         try{
 
@@ -52,7 +52,7 @@ public class DonoDAO {
 
     public List<Dono> listarDonos(){
 
-        String sql = "SELECT cpf, nome, email FROM dono";
+        String sql = "SELECT CPF, NOME, EMAIL FROM DONO";
 
         try{
 
@@ -62,9 +62,9 @@ public class DonoDAO {
             List<Dono> donos = new ArrayList<>();
             while(rs.next()){
                 Dono k = new Dono(
-                    rs.getString("cpf"),
-                    rs.getString("nome"),
-                    rs.getString("email"),
+                    rs.getString("CPF"),
+                    rs.getString("NOME"),
+                    rs.getString("EMAIL"),
                     null,
                     null,
                     null
@@ -78,11 +78,11 @@ public class DonoDAO {
         }
     }
 
-    //Read - Devolve todos os Donos
+    //Read - Devolve um Dono pelo CPF
 
     public Dono buscarPorCPF(String cpf){
 
-        String sql = "SELECT cpf, nome, email FROM dono WHERE cpf = ?";
+        String sql = "SELECT CPF, NOME, EMAIL FROM DONO WHERE CPF = ?";
 
         try{
 
@@ -93,9 +93,9 @@ public class DonoDAO {
             if(rs.next()){
 
                 return new Dono(
-                    rs.getString("cpf"),
-                    rs.getString("nome"),
-                    rs.getString("email"),
+                    rs.getString("CPF"),
+                    rs.getString("NOME"),
+                    rs.getString("EMAIL"),
                     null, 
                     null,
                     null
@@ -113,7 +113,7 @@ public class DonoDAO {
 
     public void atualiza(Dono dono){
 
-        String sql = "UPDATE dono SET nome = ?, email= ? WHERE cpf = ?";
+        String sql = "UPDATE DONO SET NOME = ?, EMAIL = ? WHERE CPF = ?";
 
         try{
 
@@ -134,7 +134,7 @@ public class DonoDAO {
 
     public void apagar(Dono dono){
 
-        String sql = "DELETE FROM dono WHERE cpf = ?";
+        String sql = "DELETE FROM DONO WHERE CPF = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -147,5 +147,4 @@ public class DonoDAO {
             throw new RuntimeException("Erro ao tentar apagar dono: " + e.getMessage());
         }
     }
-
 }

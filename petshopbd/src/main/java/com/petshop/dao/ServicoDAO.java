@@ -1,5 +1,6 @@
 package com.petshop.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,15 +23,14 @@ public class ServicoDAO{
 
     public void insert(Servico servico){
 
-        String sql = "INSERT INTO servico(idServico, tipo, descricao, preco) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO SERVICO (TIPO, DESCRICAO, PRECO) VALUES (?, ?, ?)";
     
         try{
 
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, servico.getIdServico());
-            ps.setString(2, servico.getTipo());
-            ps.setString(3, servico.getDescricao());
-            ps.setFloat(4, servico.getPreco());
+            ps.setString(1, servico.getTipo());
+            ps.setString(2, servico.getDescricao());
+            ps.setFloat(3, servico.getPreco());
             ps.executeUpdate();
 
             System.out.println("Serviço ativado com sucesso!");
@@ -41,11 +41,11 @@ public class ServicoDAO{
         }
     }
 
-    //Read - Devolve todos os Endereços
+    //Read - Devolve todos os Serviços
 
     public List<Servico> listarServico(){
 
-        String sql = "SELECT idServico, tipo, descricao, preco FROM servico";
+        String sql = "SELECT ID_SERVICO, TIPO, DESCRICAO, PRECO FROM SERVICO";
 
         try{
 
@@ -55,10 +55,10 @@ public class ServicoDAO{
             List<Servico> servicos = new ArrayList<>();
             while(rs.next()){
                 Servico k = new Servico(
-                    rs.getInt("idServico"),
-                    rs.getString("tipo"),
-                    rs.getString("descricao"),
-                    rs.getFloat("preco")
+                    rs.getInt("ID_SERVICO"),
+                    rs.getString("TIPO"),
+                    rs.getString("DESCRICAO"),
+                    rs.getFloat("PRECO")
                 );
                 servicos.add(k);
             }
@@ -70,11 +70,11 @@ public class ServicoDAO{
         }
     }
 
-    //Read - Busca Pet pelo ID
+    //Read - Busca Serviço pelo ID
 
     public Servico buscarPorID(int idServico){
 
-        String sql = "SELECT * FROM serviço WHERE idServico = ?";
+        String sql = "SELECT ID_SERVICO, TIPO, DESCRICAO, PRECO FROM SERVICO WHERE ID_SERVICO = ?";
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -84,11 +84,10 @@ public class ServicoDAO{
             if(rs.next()){
 
                 return new Servico(
-
-                    rs.getInt("idServico"),
-                    rs.getString("tipo"),
-                    rs.getString("descricao"),
-                    rs.getFloat("preco")
+                    rs.getInt("ID_SERVICO"),
+                    rs.getString("TIPO"),
+                    rs.getString("DESCRICAO"),
+                    rs.getFloat("PRECO")
                 );
             }
         }
@@ -98,11 +97,11 @@ public class ServicoDAO{
         return null;
     }
 
-    //Update - Atualizar dados dos Pets:
+    //Update - Atualizar dados dos Serviços
 
     public void atualiza(Servico servico){
 
-        String sql = "UPDATE servico SET tipo = ?, descricao = ?, preco = ? WHERE idServico = ?";
+        String sql = "UPDATE SERVICO SET TIPO = ?, DESCRICAO = ?, PRECO = ? WHERE ID_SERVICO = ?";
 
         try{
 
@@ -119,11 +118,11 @@ public class ServicoDAO{
         }
     }
 
-    //Delete - Deleta dados do Pet:
+    //Delete - Deleta dados do Serviço
 
     public void apaga(int idServico){
 
-        String sql = "DELETE FROM servico WHERE idServico = ?";
+        String sql = "DELETE FROM SERVICO WHERE ID_SERVICO = ?";
 
         try{
 
@@ -137,5 +136,4 @@ public class ServicoDAO{
             throw new RuntimeException("Erro ao tentar apagar dados do Serviço: " + e.getMessage());
         }
     }
-     
 }
