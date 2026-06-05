@@ -4,8 +4,7 @@ public class StatusServico {
     private Integer idStatus;
     private String descricao;
 
-    public StatusServico(Integer idStatus, String descricao) {
-        this.idStatus = idStatus;
+    public StatusServico(String descricao) {
         this.descricao = descricao;
     }
 

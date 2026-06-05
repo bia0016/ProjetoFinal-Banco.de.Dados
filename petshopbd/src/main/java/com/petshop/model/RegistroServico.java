@@ -8,8 +8,7 @@ public class RegistroServico {
     private StatusServico status;
     private Servico servico;
 
-    public RegistroServico(Integer idRegistro, String data, Dono dono, Pet idPet, StatusServico status, Servico servico) {
-        this.idRegistro = idRegistro;
+    public RegistroServico(String data, Dono dono, Pet idPet, StatusServico status, Servico servico) {
         this.data = data;
         this.dono = dono;
         this.idPet = idPet;

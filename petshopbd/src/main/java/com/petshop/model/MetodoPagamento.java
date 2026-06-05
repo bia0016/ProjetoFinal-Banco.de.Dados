@@ -4,8 +4,7 @@ public class MetodoPagamento {
     private Integer idPag;
     private String descricao;
 
-    public MetodoPagamento(Integer idPag, String descricao) {
-        this.idPag = idPag;
+    public MetodoPagamento(String descricao) {
         this.descricao = descricao;
     }
 

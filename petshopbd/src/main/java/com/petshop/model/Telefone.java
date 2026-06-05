@@ -6,8 +6,7 @@ public class Telefone {
     private String numero;
     private String descricao;
 
-    public Telefone(Integer idTel, String ddd, String numero, String descricao) {
-        this.idTel = idTel;
+    public Telefone(String ddd, String numero, String descricao) {
         this.ddd = ddd;
         this.numero = numero;
         this.descricao = descricao;

@@ -4,8 +4,7 @@ public class Comanda {
     private Integer idComanda;
     private Float precoTotal;
 
-    public Comanda(Integer idComanda, Float precoTotal) {
-        this.idComanda = idComanda;
+    public Comanda(Float precoTotal) {
         this.precoTotal = precoTotal;
     }
 
