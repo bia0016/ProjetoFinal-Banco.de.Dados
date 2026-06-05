@@ -6,13 +6,15 @@ public class Pet {
     private String especie;
     private String raca;
     private String porte;
+    private Dono dono;
 
-    public Pet(Integer idPet, String nome, String especie, String raca, String porte) {
+    public Pet(Integer idPet, String nome, String especie, String raca, String porte, Dono dono) {
         this.idPet = idPet;
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;
         this.porte = porte;
+        this.dono = dono;
     }
 
     public Integer getIdPet() {
@@ -55,4 +57,12 @@ public class Pet {
         this.porte = porte;
     }
 
+    public Dono getDono() {
+        return this.dono;
+    }
+
+    public void setDono(Dono dono) {
+        this.dono = dono;
+    }
+    
 }
