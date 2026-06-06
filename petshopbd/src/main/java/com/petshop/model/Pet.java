@@ -8,8 +8,7 @@ public class Pet {
     private String porte;
     private Dono dono;
 
-    public Pet(Integer idPet, String nome, String especie, String raca, String porte, Dono dono) {
-        this.idPet = idPet;
+    public Pet(String nome, String especie, String raca, String porte, Dono dono) {
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;

@@ -6,8 +6,7 @@ public class Servico {
     private String descricao;
     private Float preco;
 
-    public Servico(Integer idServico, String tipo, String descricao, Float preco) {
-        this.idServico = idServico;
+    public Servico(String tipo, String descricao, Float preco) {
         this.tipo = tipo;
         this.descricao = descricao;
         this.preco = preco;

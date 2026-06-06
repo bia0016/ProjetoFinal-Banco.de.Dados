@@ -54,11 +54,12 @@ public class TelefoneDAO {
             List<Telefone> telefones = new ArrayList<>();
             while(rs.next()){
                 Telefone k = new Telefone(
-                    rs.getInt("ID_TELEFONE"),
                     rs.getString("DDD"),
                     rs.getString("NUMERO"),
                     rs.getString("DESCRICAO")
                 );
+
+                k.setIdTel(rs.getInt("ID_TELEFONE"));
                 telefones.add(k);
             }
             return telefones;
@@ -82,12 +83,14 @@ public class TelefoneDAO {
 
             if(rs.next()){
 
-                return new Telefone(
-                    rs.getInt("ID_TELEFONE"),
+                Telefone k = new Telefone(
                     rs.getString("DDD"),
                     rs.getString("NUMERO"),
                     rs.getString("DESCRICAO")
                 );
+                k.setIdTel(rs.getInt("ID_TELEFONE"));
+                return k;
+
             }
         }
         catch(SQLException e){

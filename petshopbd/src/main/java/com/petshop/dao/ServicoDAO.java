@@ -1,4 +1,5 @@
 package com.petshop.dao;
+import com.petshop.model.Servico;
 
 
 import java.sql.Connection;
@@ -55,11 +56,12 @@ public class ServicoDAO{
             List<Servico> servicos = new ArrayList<>();
             while(rs.next()){
                 Servico k = new Servico(
-                    rs.getInt("ID_SERVICO"),
                     rs.getString("TIPO"),
                     rs.getString("DESCRICAO"),
                     rs.getFloat("PRECO")
                 );
+
+                k.setIdServico(rs.getInt("ID_SERVICO"));
                 servicos.add(k);
             }
             return servicos;
@@ -83,12 +85,14 @@ public class ServicoDAO{
 
             if(rs.next()){
 
-                return new Servico(
-                    rs.getInt("ID_SERVICO"),
+                Servico k = new Servico(
                     rs.getString("TIPO"),
                     rs.getString("DESCRICAO"),
                     rs.getFloat("PRECO")
                 );
+
+                k.setIdServico(rs.getInt("ID_SERVICO")); 
+                return k;
             }
         }
         catch(SQLException e){

@@ -1,7 +1,4 @@
 package com.petshop.dao;
-
-//importar a classe da tabela e conexão:
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

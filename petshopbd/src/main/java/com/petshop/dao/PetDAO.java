@@ -55,13 +55,15 @@ public class PetDAO {
             List<Pet> pets = new ArrayList<>();
             while(rs.next()){
                 Pet k = new Pet(
-                    rs.getInt("ID_PET"),
                     rs.getString("NOME"),
                     rs.getString("ESPECIE"),
                     rs.getString("RACA"),
                     rs.getString("PORTE"),
                     null
                 );
+
+            k.setIdPet(rs.getInt("ID_PET")); 
+
                 pets.add(k);
             }
             return pets;
@@ -85,14 +87,15 @@ public class PetDAO {
 
             if(rs.next()){
 
-                return new Pet(
-                    rs.getInt("ID_PET"),
+                Pet k = new Pet(
                     rs.getString("NOME"),
                     rs.getString("ESPECIE"),
                     rs.getString("RACA"),
                     rs.getString("PORTE"),
                     null
                 );
+                k.setIdPet(rs.getInt("ID_PET")); 
+                return k;
             }
         }
         catch(SQLException e){

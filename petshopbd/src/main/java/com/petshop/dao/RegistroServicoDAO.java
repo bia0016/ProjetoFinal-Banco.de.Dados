@@ -75,7 +75,6 @@ public class RegistroServicoDAO {
                 );
 
                 Pet pet = new Pet(
-                    rs.getInt("ID_PET"),
                     rs.getString("NOME_PET"),
                     rs.getString("ESPECIE"),
                     rs.getString("RACA"),
@@ -83,26 +82,32 @@ public class RegistroServicoDAO {
                     null
                 );
 
+                pet.setIdPet(rs.getInt("ID_PET"));
+                
+
                 StatusServico status = new StatusServico(
-                    rs.getInt("ID_STATUS"),
                     rs.getString("DESC_STATUS")
                 );
 
+                status.setIdStatus(rs.getInt("ID_STATUS"));
+
                 Servico servico = new Servico(
-                    rs.getInt("ID_SERVICO"),
                     rs.getString("TIPO"),
                     rs.getString("DESC_SERVICO"),
                     rs.getFloat("PRECO")
                 );
 
+                servico.setIdServico(rs.getInt("ID_SERVICO"));
+
                 RegistroServico registro = new RegistroServico(
-                    rs.getInt("ID_REGISTRO"),
                     rs.getString("DATA_REGISTRO"),
                     dono,
                     pet,
                     status,
                     servico
                 );
+
+                registro.setIdRegistro(rs.getInt("ID_REGISTRO"));
 
                 registros.add(registro);
             }
@@ -144,7 +149,6 @@ public class RegistroServicoDAO {
                 );
 
                 Pet pet = new Pet(
-                    rs.getInt("ID_PET"),
                     rs.getString("NOME_PET"),
                     rs.getString("ESPECIE"),
                     rs.getString("RACA"),
@@ -152,26 +156,32 @@ public class RegistroServicoDAO {
                     null
                 );
 
+                pet.setIdPet(rs.getInt("ID_PET"));
+
                 StatusServico status = new StatusServico(
-                    rs.getInt("ID_STATUS"),
                     rs.getString("DESC_STATUS")
                 );
 
+                status.setIdStatus(rs.getInt("ID_STATUS"));
+
                 Servico servico = new Servico(
-                    rs.getInt("ID_SERVICO"),
                     rs.getString("TIPO"),
                     rs.getString("DESC_SERVICO"),
                     rs.getFloat("PRECO")
                 );
 
-                return new RegistroServico(
-                    rs.getInt("ID_REGISTRO"),
+                servico.setIdServico(rs.getInt("ID_SERVICO"));
+
+                RegistroServico registro = new RegistroServico(
                     rs.getString("DATA_REGISTRO"),
                     dono,
                     pet,
                     status,
                     servico
                 );
+
+                registro.setIdRegistro(rs.getInt("ID_REGISTRO"));
+                return registro;
             }
 
         } catch (SQLException e) {

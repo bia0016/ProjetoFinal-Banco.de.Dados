@@ -32,9 +32,10 @@ public class StatusServicoDAO {
             List<StatusServico> statusServicos = new ArrayList<>();
             while(rs.next()){
                 StatusServico k = new StatusServico(
-                    rs.getInt("ID_STATUS"),
                     rs.getString("DESCRICAO")
                 );
+
+                k.setIdStatus(rs.getInt("ID_STATUS"));
                 statusServicos.add(k);
             }
             return statusServicos;
@@ -58,10 +59,12 @@ public class StatusServicoDAO {
 
             if(rs.next()){
 
-                return new StatusServico(
-                    rs.getInt("ID_STATUS"),
+                StatusServico k = new StatusServico(
                     rs.getString("DESCRICAO")
                 );
+
+                k.setIdStatus(rs.getInt("ID_STATUS"));
+                return k;
             }
         }
         catch(SQLException e){
