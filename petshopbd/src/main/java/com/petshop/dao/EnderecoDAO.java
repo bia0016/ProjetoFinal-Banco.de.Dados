@@ -102,6 +102,37 @@ public class EnderecoDAO {
         return null;
     }
 
+    //Read - Busca Endereço pelo CEP
+
+    public Endereco buscarPorCEP(String cep){
+
+        String sql = "SELECT ID_ENDERECO, CEP, LOGRADOURO, BAIRRO, CIDADE, COMPLEMENTO FROM ENDERECO WHERE CEP = ?";
+
+        try{
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, cep);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                return new Endereco(
+                    rs.getInt("ID_ENDERECO"),
+                    rs.getString("CEP"),
+                    rs.getString("LOGRADOURO"),
+                    rs.getString("BAIRRO"),
+                    rs.getString("CIDADE"),
+                    rs.getString("COMPLEMENTO")
+                );
+
+            }
+        }
+        catch(SQLException e){
+            throw new RuntimeException("Erro ao tentar buscar endereço: " + e.getMessage());
+        }
+        return null;
+    }
+
     //Update - Atualizar dados do Endereço
 
     public void atualiza(Endereco endereco){
