@@ -1,13 +1,9 @@
 package com.petshop;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import com.petshop.ui.TelaLogin;
+
+public class App {
+    public static void main(String[] args) {
+        new TelaLogin().setVisible(true);
     }
 }
