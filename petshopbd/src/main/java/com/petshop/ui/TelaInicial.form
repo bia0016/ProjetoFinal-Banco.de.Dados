@@ -25,17 +25,21 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnStatus" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnServicos" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnPets" max="32767" attributes="0"/>
-                      <Component id="btnDonos" max="32767" attributes="0"/>
-                      <Component id="btnComandas" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnRegistros" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jBPagamento" min="-2" pref="129" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnServicos" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnPets" max="32767" attributes="0"/>
+                  <Component id="btnDonos" max="32767" attributes="0"/>
+                  <Component id="btnComandas" alignment="0" pref="129" max="32767" attributes="0"/>
+                  <Component id="btnRegistros" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnConsultaD" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnStatus" alignment="0" pref="127" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="btnConsultaP" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="painelConteudo" max="32767" attributes="0"/>
@@ -47,7 +51,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="btnDonos" min="-2" max="-2" attributes="0"/>
@@ -62,10 +66,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnStatus" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jBPagamento" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="195" max="32767" attributes="0"/>
+                      <Component id="btnConsultaD" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnConsultaP" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="184" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="painelConteudo" max="32767" attributes="0"/>
                   </Group>
@@ -124,14 +130,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComandasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jBPagamento">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="M&#xe9;todo de Pagamento"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBPagamentoActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnStatus">
       <Properties>
         <Property name="text" type="java.lang.String" value="Status"/>
@@ -145,7 +143,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="427" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="494" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -155,5 +153,21 @@
         </DimensionLayout>
       </Layout>
     </Container>
+    <Component class="javax.swing.JButton" name="btnConsultaD">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Consultar Dono"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultaDActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnConsultaP">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Consultar Pet"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultaPActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
