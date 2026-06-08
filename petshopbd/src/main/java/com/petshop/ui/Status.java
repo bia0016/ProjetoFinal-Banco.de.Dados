@@ -2,6 +2,7 @@ package com.petshop.ui;
 
 import com.petshop.model.StatusServico;
 import com.petshop.dao.StatusServicoDAO;
+import com.petshop.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Status extends javax.swing.JPanel {
     }
 
     private void configurarBotoes() {
-
+        /*
         // Botão Salvar
         jButton1.addActionListener(e -> {
             try {
@@ -33,6 +34,28 @@ public class Status extends javax.swing.JPanel {
                 carregarTabela();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        });*/
+        // Botão Salvar Corrigido
+    jButton1.addActionListener(e -> {
+            try {
+                String descricao = jTextField1.getText().trim();
+                if (descricao.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Informe a descrição do status.");
+                    return;
+                }
+                
+                
+                StatusServico status = new StatusServico(descricao);
+                
+                statusDAO.insert(status); 
+                
+                JOptionPane.showMessageDialog(this, "Novo tipo de status cadastrado com sucesso!");
+                jTextField1.setText("");
+                carregarTabela(); 
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
             }
         });
     }

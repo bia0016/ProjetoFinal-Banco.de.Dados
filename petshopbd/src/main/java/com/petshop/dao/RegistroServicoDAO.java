@@ -26,15 +26,16 @@ public class RegistroServicoDAO {
 
     public void insert(RegistroServico registro) {
 
-        String sql = "INSERT INTO REGISTRO_SERVICO (DATA_REGISTRO, CPF_DONO, ID_PET, ID_STATUS, ID_SERVICO) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO REGISTRO_SERVICO (DATA_REGISTRO, HORARIO, CPF_DONO, ID_PET, ID_STATUS, ID_SERVICO) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, registro.getData());
-            ps.setString(2, registro.getDono().getCpf());       
-            ps.setInt(3, registro.getIdPet().getIdPet());       
-            ps.setInt(4, registro.getStatus().getIdStatus());   
-            ps.setInt(5, registro.getServico().getIdServico()); 
+            ps.setString(2, registro.getHorario());
+            ps.setString(3, registro.getDono().getCpf());       
+            ps.setInt(4, registro.getIdPet().getIdPet());       
+            ps.setInt(5, registro.getStatus().getIdStatus());   
+            ps.setInt(6, registro.getServico().getIdServico()); 
             ps.executeUpdate();
 
             System.out.println("Registro cadastrado com sucesso!");
@@ -48,7 +49,7 @@ public class RegistroServicoDAO {
 
     public List<RegistroServico> listarTodos() {
 
-        String sql = "SELECT rs.ID_REGISTRO, rs.DATA_REGISTRO, " +
+        String sql = "SELECT rs.ID_REGISTRO, rs.DATA_REGISTRO, rs.HORARIO," +
                      "d.CPF, d.NOME AS NOME_DONO, d.EMAIL, " +
                      "p.ID_PET, p.NOME AS NOME_PET, p.ESPECIE, p.RACA, p.PORTE, " +
                      "ss.ID_STATUS, ss.DESCRICAO AS DESC_STATUS, " +
@@ -101,6 +102,7 @@ public class RegistroServicoDAO {
 
                 RegistroServico registro = new RegistroServico(
                     rs.getString("DATA_REGISTRO"),
+                    rs.getString("HORARIO"),
                     dono,
                     pet,
                     status,
@@ -123,7 +125,7 @@ public class RegistroServicoDAO {
 
     public RegistroServico buscarPorId(int idRegistro) {
 
-        String sql = "SELECT rs.ID_REGISTRO, rs.DATA_REGISTRO, " +
+        String sql = "SELECT rs.ID_REGISTRO, rs.DATA_REGISTRO, rs.HORARIO," + 
                      "d.CPF, d.NOME AS NOME_DONO, d.EMAIL, " +
                      "p.ID_PET, p.NOME AS NOME_PET, p.ESPECIE, p.RACA, p.PORTE, " +
                      "ss.ID_STATUS, ss.DESCRICAO AS DESC_STATUS, " +
@@ -174,6 +176,7 @@ public class RegistroServicoDAO {
 
                 RegistroServico registro = new RegistroServico(
                     rs.getString("DATA_REGISTRO"),
+                    rs.getString("HORARIO"),
                     dono,
                     pet,
                     status,
