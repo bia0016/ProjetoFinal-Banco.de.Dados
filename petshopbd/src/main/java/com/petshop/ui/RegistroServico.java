@@ -52,14 +52,14 @@ public class RegistroServico extends javax.swing.JPanel {
                 int idServico = Integer.parseInt(jComboBox3.getSelectedItem().toString().split(" - ")[0]);
                 int idStatus = Integer.parseInt(jComboBox4.getSelectedItem().toString().split(" - ")[0]);
                 String data = jTextField1.getText().trim();
-
+                String horario = jTextField2.getText().trim();
                 Dono dono = donoDAO.buscarPorCPF(cpf);
                 Pet pet = petDAO.buscarPorID(idPet);
                 com.petshop.model.Servico servico = servicoDAO.buscarPorID(idServico);
                 StatusServico status = statusDAO.buscarPorID(idStatus);
 
                 com.petshop.model.RegistroServico registro = new com.petshop.model.RegistroServico(
-                    data, dono, pet, status, servico
+                    data, horario, dono, pet, status, servico
                 );
 
                 registroService.cadastrarRegistroServico(registro);

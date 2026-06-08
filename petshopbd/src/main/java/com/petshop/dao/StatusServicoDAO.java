@@ -91,5 +91,17 @@ public class StatusServicoDAO {
             throw new RuntimeException("Erro ao atualizar Status do Serviço: " + e.getMessage());
         }
     }
+    public void insert(StatusServico statusServico) {
+    String sql = "INSERT INTO STATUS_SERVICO (DESCRICAO) VALUES (?)";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, statusServico.getDescricao());
+            ps.executeUpdate();
+            System.out.println("Novo status inserido com sucesso!");
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir Status do Serviço: " + e.getMessage());
+        }
+    }
 
 }

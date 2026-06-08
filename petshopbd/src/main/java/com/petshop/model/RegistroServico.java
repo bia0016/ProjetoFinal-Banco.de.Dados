@@ -3,13 +3,15 @@ package com.petshop.model;
 public class RegistroServico {
     private Integer idRegistro;
     private String data;
+    private String horario;
     private Dono dono;
     private Pet idPet;
     private StatusServico status;
     private Servico servico;
 
-    public RegistroServico(String data, Dono dono, Pet idPet, StatusServico status, Servico servico) {
+    public RegistroServico(String data, String horario, Dono dono, Pet idPet, StatusServico status, Servico servico) {
         this.data = data;
+        this.horario=horario;
         this.dono = dono;
         this.idPet = idPet;
         this.status = status;
@@ -30,6 +32,14 @@ public class RegistroServico {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getHorario(){
+        return this.horario;
+    }
+
+    public void setHorario(String horario){
+        this.horario=horario;
     }
 
     public Dono getDono() {

@@ -6,7 +6,7 @@ import com.petshop.model.Servico;
 public class ServicoService {
     private ServicoDAO ServicoDAO=new ServicoDAO();
     public void cadastrarServico(Servico servico) throws Exception{
-        if(servico.getTipo()==null){
+        if(servico.getTipo()==null||servico.getTipo().trim().isEmpty()){
             throw new Exception("Selecione um tipo válido.");
         }
         if(servico.getPreco()<=0){
