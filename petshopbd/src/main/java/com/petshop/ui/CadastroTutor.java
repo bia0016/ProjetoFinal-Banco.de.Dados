@@ -1,16 +1,18 @@
 package com.petshop.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import com.petshop.dao.DonoDAO;
+import com.petshop.dao.EnderecoDAO;
+import com.petshop.dao.TelefoneDAO;
 import com.petshop.model.Dono;
 import com.petshop.model.Endereco;
 import com.petshop.model.Telefone;
 import com.petshop.service.DonoService;
-import com.petshop.dao.EnderecoDAO;
-import com.petshop.dao.TelefoneDAO;
-import com.petshop.dao.DonoDAO;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CadastroTutor extends javax.swing.JPanel {
 
@@ -70,7 +72,7 @@ public class CadastroTutor extends javax.swing.JPanel {
                     jTextField2.getText().trim(),  // Nome
                     jTextField3.getText().trim(),  // Email
                     endSalvo,
-                    null,
+                    telefonesSessao,
                     null
                 );
                 donoService.cadastrarDono(dono);
