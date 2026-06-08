@@ -25,7 +25,7 @@ public class TelaInicial extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName());
     
-    private void abrirTela(javax.swing.JPanel tela) {
+    public void abrirTela(javax.swing.JPanel tela) {
 
         painelConteudo.removeAll();
 
@@ -181,11 +181,11 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStatusActionPerformed
 
     private void btnConsultaDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaDActionPerformed
-       abrirTela(new ConsultaDono());        // TODO add your handling code here:
+       abrirTela(new ConsultaDono(this));        // TODO add your handling code here:
     }//GEN-LAST:event_btnConsultaDActionPerformed
 
     private void btnConsultaPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaPActionPerformed
-       abrirTela(new ConsultaPet());  // TODO add your handling code here:
+       abrirTela(new ConsultaPet(this));  // TODO add your handling code here:
     }//GEN-LAST:event_btnConsultaPActionPerformed
 
     /**

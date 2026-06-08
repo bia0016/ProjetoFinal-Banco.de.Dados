@@ -23,6 +23,7 @@ public class PetDAO {
     public void insert(Pet pet){
 
         String sql = "INSERT INTO PET (NOME, ESPECIE, RACA, PORTE) VALUES (?, ?, ?, ?)";
+
     
         try{
 

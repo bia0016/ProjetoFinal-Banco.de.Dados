@@ -22,22 +22,43 @@ public class CadastroTutor extends javax.swing.JPanel {
     private TelefoneDAO telefoneDAO = new TelefoneDAO();
     private List<Telefone> telefonesSessao = new ArrayList<>();
     private Dono donoSelecionado = null;
+    private boolean modoEdicao = false;
 
     public CadastroTutor() {
         initComponents();
         configurarBotoes();
     }
 
+
+    public void preencherParaEdicao(Dono dono) {
+        modoEdicao = true;
+        donoSelecionado = dono;
+
+        jTextField1.setText(dono.getCpf());
+        jTextField1.setEditable(false); 
+        jTextField2.setText(dono.getNome());
+        jTextField3.setText(dono.getEmail());
+
+        if (dono.getEndereco() != null) {
+            jTextField4.setText(dono.getEndereco().getCep());
+            jTextField5.setText(dono.getEndereco().getLogradouro());
+            jTextField6.setText(dono.getEndereco().getBairro());
+            jTextField7.setText(dono.getEndereco().getCidade());
+            jTextField8.setText(dono.getEndereco().getComplemento());
+        }
+
+        jButton1.setText("Atualizar");
+    }
+
     private void configurarBotoes() {
 
-        // Botão Adicionar telefone → adiciona na tabela (sem salvar no banco ainda)
+        // Botão Adicionar telefone
         jButton2.addActionListener(e -> {
             String tel = jTextField9.getText().trim();
             if (tel.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Informe o telefone antes de adicionar.");
                 return;
             }
-            // formato esperado: DDD NUMERO DESCRIÇÃO separados por espaço
             String[] partes = tel.split(" ", 3);
             if (partes.length < 2) {
                 JOptionPane.showMessageDialog(this, "Formato: DDD NUMERO DESCRIÇÃO");
@@ -51,57 +72,64 @@ public class CadastroTutor extends javax.swing.JPanel {
             jTextField9.setText("");
         });
 
-        // Botão Salvar → salva endereço, dono e telefones no banco
+        // Botão Salvar / Atualizar
         jButton1.addActionListener(e -> {
             try {
-                Endereco endereco = new Endereco(
-                    null,
-                    jTextField4.getText().trim(),  // CEP
-                    jTextField5.getText().trim(),  // Logradouro
-                    jTextField6.getText().trim(),  // Bairro
-                    jTextField7.getText().trim(),  // Cidade
-                    jTextField8.getText().trim()   // Complemento
-                );
-                enderecoDAO.insert(endereco);
+                if (modoEdicao) {
+                    // ── MODO EDIÇÃO: faz UPDATE ──
+                    Dono donoAtualizado = new Dono(
+                        donoSelecionado.getCpf(),
+                        jTextField2.getText().trim(),
+                        jTextField3.getText().trim(),
+                        donoSelecionado.getEndereco(),
+                        telefonesSessao.isEmpty() ? donoSelecionado.getTelefones() : telefonesSessao,
+                        null
+                    );
+                    donoDAO.atualiza(donoAtualizado);
+                    JOptionPane.showMessageDialog(this, "Dono atualizado com sucesso!");
+                    limparCampos();
+                    modoEdicao = false;
+                    jTextField1.setEditable(true);
+                    jButton1.setText("Salvar");
 
-                // busca o endereço recém inserido pelo CEP
-                Endereco endSalvo = enderecoDAO.buscarPorCEP(jTextField4.getText().trim());
+                } else {
+                    // ── MODO CADASTRO: faz INSERT ──
+                    Endereco endereco = new Endereco(
+                        null,
+                        jTextField4.getText().trim(),
+                        jTextField5.getText().trim(),
+                        jTextField6.getText().trim(),
+                        jTextField7.getText().trim(),
+                        jTextField8.getText().trim()
+                    );
+                    enderecoDAO.insert(endereco);
 
-                Dono dono = new Dono(
-                    jTextField1.getText().trim(),  // CPF
-                    jTextField2.getText().trim(),  // Nome
-                    jTextField3.getText().trim(),  // Email
-                    endSalvo,
-                    telefonesSessao,
-                    null
-                );
-                donoService.cadastrarDono(dono);
+                    Endereco endSalvo = enderecoDAO.buscarPorCEP(jTextField4.getText().trim());
 
-                // salva os telefones e vincula ao dono
-                for (Telefone t : telefonesSessao) {
-                    telefoneDAO.insert(t);
+                    Dono dono = new Dono(
+                        jTextField1.getText().trim(),
+                        jTextField2.getText().trim(),
+                        jTextField3.getText().trim(),
+                        endSalvo,
+                        telefonesSessao,
+                        null
+                    );
+                    donoService.cadastrarDono(dono);
+
+                    for (Telefone t : telefonesSessao) {
+                        telefoneDAO.insert(t);
+                    }
+
+                    JOptionPane.showMessageDialog(this, "Dono cadastrado com sucesso!");
+                    limparCampos();
                 }
-
-                JOptionPane.showMessageDialog(this, "Dono cadastrado com sucesso!");
-                limparCampos();
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         });
 
-        // Botão Editar → preenche os campos com os dados do dono selecionado na tabela
-        jButton3.addActionListener(e -> {
-            int linha = jTable1.getSelectedRow();
-            if (linha < 0) {
-                JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
-                return;
-            }
-            // aqui seria carregado os dados do dono para edição
-            JOptionPane.showMessageDialog(this, "Selecione um dono na tela de consulta para editar.");
-        });
-
-        // Botão Excluir → exclui o dono pelo CPF informado
+        // Botão Excluir
         jButton5.addActionListener(e -> {
             String cpf = jTextField1.getText().trim();
             if (cpf.isEmpty()) {
@@ -115,7 +143,7 @@ public class CadastroTutor extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Dono removido com sucesso!");
                     limparCampos();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    JOptionPane.showMessageDialog(this,"Errooooooo" + ex.getMessage());
                 }
             }
         });
@@ -135,7 +163,6 @@ public class CadastroTutor extends javax.swing.JPanel {
         ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -163,7 +190,6 @@ public class CadastroTutor extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Tutores");
@@ -175,8 +201,6 @@ public class CadastroTutor extends javax.swing.JPanel {
         jLabel4.setText("E-mail:");
 
         jLabel5.setText("CEP:");
-
-        jTextField4.addActionListener(this::jTextField4ActionPerformed);
 
         jButton1.setText("Salvar");
 
@@ -191,8 +215,6 @@ public class CadastroTutor extends javax.swing.JPanel {
         jLabel9.setText("Complemento:");
 
         jLabel10.setText("Telefone:");
-
-        jTextField9.addActionListener(this::jTextField9ActionPerformed);
 
         jButton2.setText("Adicionar");
 
@@ -224,8 +246,6 @@ public class CadastroTutor extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton3.setText("Editar");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -235,8 +255,7 @@ public class CadastroTutor extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(jButton5)
-                    .addComponent(jButton3))
+                    .addComponent(jButton5))
                 .addGap(16, 16, 16))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -337,7 +356,6 @@ public class CadastroTutor extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -348,7 +366,6 @@ public class CadastroTutor extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

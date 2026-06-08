@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.petshop.connection.ConnectionFactory;
 import com.petshop.model.Dono;
+import com.petshop.model.Endereco;
 
 
 public class DonoDAO {
@@ -79,7 +80,11 @@ public class DonoDAO {
 
     public Dono buscarPorCPF(String cpf){
 
-        String sql = "SELECT CPF, NOME, EMAIL FROM DONO WHERE CPF = ?";
+        String sql = "SELECT D.CPF, D.NOME, D.EMAIL, " +
+             "E.ID_ENDERECO, E.CEP, E.LOGRADOURO, E.BAIRRO, E.CIDADE, E.COMPLEMENTO " +
+             "FROM DONO D " +
+             "LEFT JOIN ENDERECO E ON D.ID_ENDERECO = E.ID_ENDERECO " +
+             "WHERE D.CPF = ?";
 
         try{
 
@@ -89,11 +94,20 @@ public class DonoDAO {
             
             if(rs.next()){
 
+                Endereco endereco = new Endereco(
+                    rs.getInt("ID_ENDERECO"),
+                    rs.getString("CEP"),
+                    rs.getString("LOGRADOURO"),
+                    rs.getString("BAIRRO"),
+                    rs.getString("CIDADE"),
+                    rs.getString("COMPLEMENTO")
+                );
+
                 return new Dono(
                     rs.getString("CPF"),
                     rs.getString("NOME"),
                     rs.getString("EMAIL"),
-                    null, 
+                    endereco,
                     null,
                     null
                 );

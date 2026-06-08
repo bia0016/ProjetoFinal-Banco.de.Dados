@@ -9,7 +9,17 @@ import java.util.List;
 public class ConsultaDono extends javax.swing.JPanel {
 
     private DonoDAO donoDAO = new DonoDAO();
+    private TelaInicial telaInicial;
 
+    // Construtor com referência à TelaInicial (usado pelo botão Editar)
+    public ConsultaDono(TelaInicial telaInicial) {
+        this.telaInicial = telaInicial;
+        initComponents();
+        configurarBotoes();
+        carregarTabela(donoDAO.listarDonos());
+    }
+
+    // Construtor sem parâmetro para compatibilidade
     public ConsultaDono() {
         initComponents();
         configurarBotoes();
@@ -18,22 +28,22 @@ public class ConsultaDono extends javax.swing.JPanel {
 
     private void configurarBotoes() {
 
-        // Botão Pesquisar → filtra pelo nome digitado
+        // Botão Pesquisar → filtra pelo CPF digitado
         jButton1.addActionListener(e -> {
-            String nomeBusca = jTextField1.getText().trim().toLowerCase();
+            String cpfBusca = jTextField1.getText().trim().toLowerCase();
             List<Dono> todos = donoDAO.listarDonos();
 
-            if (nomeBusca.isEmpty()) {
+            if (cpfBusca.isEmpty()) {
                 carregarTabela(todos);
             } else {
                 List<Dono> filtrados = todos.stream()
-                    .filter(d -> d.getNome().toLowerCase().contains(nomeBusca))
+                    .filter(d -> d.getCpf().toLowerCase().contains(cpfBusca))
                     .collect(java.util.stream.Collectors.toList());
                 carregarTabela(filtrados);
             }
         });
 
-        // Botão Selecionar → abre tela de edição com os dados do dono selecionado
+        // Botão Selecionar → exibe os dados do dono num dialog
         jButton2.addActionListener(e -> {
             int linha = jTable1.getSelectedRow();
             if (linha < 0) {
@@ -46,12 +56,61 @@ public class ConsultaDono extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Dono não encontrado.");
                 return;
             }
-            // Exibe os dados do dono selecionado num dialog
             JOptionPane.showMessageDialog(this,
                 "CPF: " + dono.getCpf() + "\n" +
                 "Nome: " + dono.getNome() + "\n" +
                 "E-mail: " + dono.getEmail(),
                 "Dados do Dono", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        // Botão Editar → abre CadastroTutor com os campos preenchidos
+        jButton3.addActionListener(e -> {
+            int linha = jTable1.getSelectedRow();
+            if (linha < 0) {
+                JOptionPane.showMessageDialog(this, "Selecione um dono na tabela para editar.");
+                return;
+            }
+            String cpf = jTable1.getValueAt(linha, 2).toString();
+            Dono dono = donoDAO.buscarPorCPF(cpf);
+            if (dono == null) {
+                JOptionPane.showMessageDialog(this, "Dono não encontrado.");
+                return;
+            }
+
+            CadastroTutor telaCadastro = new CadastroTutor();
+            telaCadastro.preencherParaEdicao(dono);
+
+            if (telaInicial != null) {
+                telaInicial.abrirTela(telaCadastro);
+            } else {
+                // Fallback: abre em janela separada
+                JFrame frame = new JFrame("Editar Dono");
+                frame.setContentPane(telaCadastro);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+
+        // Botão Excluir → exclui o dono selecionado na tabela
+        jButton4.addActionListener(e -> {
+            int linha = jTable1.getSelectedRow();
+            if (linha < 0) {
+                JOptionPane.showMessageDialog(this, "Selecione um dono na tabela para excluir.");
+                return;
+            }
+            String cpf = jTable1.getValueAt(linha, 2).toString();
+            int confirm = JOptionPane.showConfirmDialog(this, "Confirma exclusão do dono com CPF " + cpf + "?");
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    Dono dono = donoDAO.buscarPorCPF(cpf);
+                    donoDAO.apagar(dono);
+                    JOptionPane.showMessageDialog(this, "Dono removido com sucesso!");
+                    carregarTabela(donoDAO.listarDonos());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+            }
         });
     }
 
@@ -63,7 +122,6 @@ public class ConsultaDono extends javax.swing.JPanel {
         }
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -80,7 +138,7 @@ public class ConsultaDono extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Consultar Dono");
 
-        jLabel2.setText("CPF :");
+        jLabel2.setText("Nome / CPF :");
 
         jButton1.setText("Pesquisar");
 

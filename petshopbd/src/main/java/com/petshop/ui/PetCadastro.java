@@ -16,34 +16,84 @@ public class PetCadastro extends javax.swing.JPanel {
     private DonoDAO donoDAO = new DonoDAO();
     private Dono donoVinculado = null;
 
+    private boolean modoEdicao = false;
+    private Integer idPetEdicao = null;
+
     public PetCadastro() {
         initComponents();
         configurarBotoes();
+        carregarTabela(donoDAO.listarDonos());
+    }
+
+    public void preencherParaEdicao(Pet pet) {
+        jTextField1.setText(pet.getNome());
+        jTextField2.setText(pet.getEspecie());
+        jTextField3.setText(pet.getRaca());
+        jTextField4.setText(pet.getPorte());
+        idPetEdicao = pet.getIdPet();
+        modoEdicao = true;
+        btnSave.setText("Atualizar");
     }
 
     private void configurarBotoes() {
 
-        // Botão Salvar
+        jTextField5.addActionListener(e -> vincularDono());
+
         btnSave.addActionListener(e -> {
             try {
-                if (donoVinculado == null) {
-                    JOptionPane.showMessageDialog(this, "Vincule um dono antes de salvar.");
-                    return;
+                if (modoEdicao) {
+
+                    Pet petAtualizado = new Pet(
+                        jTextField1.getText().trim(),
+                        jTextField2.getText().trim(),
+                        jTextField3.getText().trim(),
+                        jTextField4.getText().trim(),
+                        donoVinculado
+                    );
+                    petAtualizado.setIdPet(idPetEdicao);
+                    petDAO.atualiza(petAtualizado);
+                    JOptionPane.showMessageDialog(this, "Pet atualizado com sucesso!");
+                    limparCampos();
+
+                } else {
+                    
+                    if (donoVinculado == null) {
+                        JOptionPane.showMessageDialog(this, "Vincule um dono antes de salvar.");
+                        return;
+                    }
+                    Pet pet = new Pet(
+                        jTextField1.getText().trim(),
+                        jTextField2.getText().trim(),
+                        jTextField3.getText().trim(),
+                        jTextField4.getText().trim(),
+                        donoVinculado
+                    );
+                    petService.cadastrarPet(pet);
+                    JOptionPane.showMessageDialog(this, "Pet cadastrado com sucesso!");
+                    limparCampos();
                 }
-                Pet pet = new Pet(
-                    jTextField1.getText().trim(),   // nome
-                    jTextField2.getText().trim(),   // espécie
-                    jTextField3.getText().trim(),   // raça
-                    jTextField4.getText().trim(),   // porte
-                    donoVinculado
-                );
-                petService.cadastrarPet(pet);
-                JOptionPane.showMessageDialog(this, "Pet cadastrado com sucesso!");
-                limparCampos();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         });
+    }
+
+    private void vincularDono() {
+        String cpf = jTextField5.getText().trim();
+        if (cpf.isEmpty()) return;
+
+        Dono dono = donoDAO.buscarPorCPF(cpf);
+        if (dono == null) {
+            JOptionPane.showMessageDialog(this, "Dono não encontrado com o CPF: " + cpf);
+            donoVinculado = null;
+            return;
+        }
+        donoVinculado = dono;
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        model.addRow(new Object[]{dono.getNome(), dono.getCpf()});
+        JOptionPane.showMessageDialog(this, "Dono \"" + dono.getNome() + "\" vinculado!");
     }
 
     private void limparCampos() {
@@ -51,8 +101,20 @@ public class PetCadastro extends javax.swing.JPanel {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
+        jTextField5.setText("");
         donoVinculado = null;
+        modoEdicao = false;
+        idPetEdicao = null;
+        btnSave.setText("Salvar");
         ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
+    }
+
+    private void carregarTabela(List<Dono> donos) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        for (Dono d : donos) {
+            model.addRow(new Object[]{d.getNome(), d.getCpf()});
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -87,8 +149,6 @@ public class PetCadastro extends javax.swing.JPanel {
         jLabel5.setText("Porte:");
 
         jLabel6.setText("Donos Vinculados:");
-
-        jTextField3.addActionListener(this::jTextField3ActionPerformed);
 
         btnSave.setText("Salvar");
 
