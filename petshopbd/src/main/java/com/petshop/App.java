@@ -1,9 +1,9 @@
 package com.petshop;
 
-import com.petshop.ui.TelaLogin;
+import com.petshop.ui.TelaInicial;
 
 public class App {
     public static void main(String[] args) {
-        new TelaLogin().setVisible(true);
+        new TelaInicial().setVisible(true);
     }
 }
